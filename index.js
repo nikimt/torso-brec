@@ -135,6 +135,7 @@
         'dom': view.tableControls,
         'stateSave': true,
         'serverSide': true,
+        'responsive': true,
         'ajax': view._requestData.bind(view),
         'fnStateLoadCallback': function ( settings ) {
           try {
