@@ -24,6 +24,10 @@
      */
     tableControls: '<"top-pagination" p><"filters" <"filter-row" <"showing-filter" li><"search-filter" f>>>rtp',
     columnOrder: [],
+    colVisConfig: {
+      'buttonText': "<span class='action-option icon-eye-open'></span>",
+      'restore': "Restore",
+     },
 
 
     // ----- Overrides -------------------------------------------------------------------------------------------------------------
@@ -102,6 +106,10 @@
      * @method _brecWidgetsInit
      */
     _brecWidgetsInit: function() {
+      // Initialize the show/hide button
+      var colvis = new $.fn.dataTable.ColVis(this.dataTable, this.colVisConfig);
+      this.$('.action-view').append($(colvis.button()));
+
       // Initialize the fixed headers
       this.tableHeader = new $.fn.dataTable.FixedHeader(this.dataTable, {
         zTop: 1,
@@ -121,6 +129,15 @@
      */
     _updateFixedHeaderPos: function() {
       this.tableHeader._fnUpdateClones(true);
+    },
+
+    /**
+     * Extends dataTable options, retaining the defaults
+     * @private
+     * @method _extendOptions
+     */
+    _extendOptions: function() {
+      _.extend(this.colVisConfig, this.extendColVisOptions);
     },
 
     /**
@@ -160,6 +177,7 @@
         },
         'columns': _.map(this.columnConfig, function(column){return column.options;})
       }, view.brecOptionsOverrides));
+      this._extendOptions();
     },
 
     /**
